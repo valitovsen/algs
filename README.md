@@ -1,4 +1,4 @@
-<h2>Pyton Implementation of Classic Algorithms</h2>
+<h2>Python Implementation of Classic Algorithms</h2>
 
 <h3>Contents</h3>
 <p>Dynamic Programming:</p>
