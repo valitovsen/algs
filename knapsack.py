@@ -1,5 +1,5 @@
 
-def knapsack_rec(items,limit, solution=False, big=False):
+def knapsack_rec(items,limit, solution=False):
     '''
     knapsack_rec(items, limit, solution=False, big=False) ->
                                     value of optimal solution, solution set
@@ -9,12 +9,11 @@ def knapsack_rec(items,limit, solution=False, big=False):
         items: list of tuples (value,weigth), contains only positive integers
         limit: positive integer for total weight limitation
         solution: boolean, return a list of items in optimal solution if True
-        big: boolean, recommended to toggle True if a number of items exceeds 10^3
 
     A.Valitov 2017
     '''
     class RecCont:
-        'Recursion container to neatly hold nonlocal variables'
+        'Recursion container to hold nonlocal variables'
         def __init__(self,items,limit, solution):
             self.count = len(items)
             self.return_solution = solution
@@ -73,17 +72,50 @@ def knapsack_rec(items,limit, solution=False, big=False):
             self.eval_state(self.count,self.limit)
             if self.return_solution:
                 self.find_solution()
-                return self.visited[count][limit],self.solution
-            return self.visited[count][limit]
+                return self.visited[self.count][limit],self.solution
+            return self.visited[self.count][self.limit]
 
     inst = RecCont(items, limit, solution)
     return inst.run()
 
 
 if __name__ == '__main__':
-    '''Run as a script
-    - set recursion limit and stack size
-    - redirect input
-    - allocate more memory
     '''
-    pass
+    -d value and weight of items
+    -l weight limit
+    '''
+    import sys, threading, resource
+
+    def getopts(argv):
+        '''
+        Collects command-line options in a dictionary
+        '''
+        opts = {}
+        while argv:
+            if argv[0][0] == '-':
+                opts[argv[0]] = argv[1]
+                argv = argv[2:]
+            else:
+                argv = argv[1:]
+        return opts
+
+    opts = getopts(sys.argv)
+    temp = {'-d':'data','-l':'weight limit'}
+    for key in temp:
+        if key not in opts:
+            print('%s not given, breaking...' %temp[key])
+            break
+    data = [list(map(int,line.strip().split())) for line in open(opts['-d']).readlines()]
+
+    # allocate memory and set recursion limit for big datasets
+    sys.setrecursionlimit(8000000)
+    threading.stack_size(6710886400)
+    #resource.setrlimit(resource.RLIMIT_CORE(resource.RLIM_INFINITY, resource.RLIM_INFINITY))
+    # run main
+    def main(items, limit):
+        res = knapsack_rec(items, limit, solution=True)
+        print('Optimal value: %s' %(res[0]))
+        print('Optimal solution:\n %s' %(res[1]))
+
+    thread = threading.Thread(target=main, args=(data,int(opts['-l'])))
+    thread.start()
