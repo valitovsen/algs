@@ -9,4 +9,5 @@
 <p>Greedy Algorithms:</p>
 <ul>
   <li><b>Clustering</b> - max-spacing k-clustering algorithm [<a href="knapsack.py">code</a>][<a href="https://en.wikipedia.org/wiki/Knapsack_problem">wiki</a>]</li>
+  <li><b>Huffman coding</b> - implementation of Huffman's algorithm to obtain optimal coding scheme given frequences of characters [<a href="knapsack.py">code</a>][<a href="https://en.wikipedia.org/wiki/Huffman_coding">wiki</a>][<a href="http://compression.ru/download/articles/huff/huffman_1952_minimum-redundancy-codes.pdf">paper</a>]</li>
 </ul>
