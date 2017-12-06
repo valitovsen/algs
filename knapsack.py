@@ -1,7 +1,7 @@
 
 def knapsack_rec(items,limit, solution=False):
     '''
-    knapsack_rec(items, limit, solution=False, big=False) ->
+    knapsack_rec(items, limit, solution=False) ->
                                     value of optimal solution, solution set
 
     Recursively finds solution to a 0-1 knapsack problem
