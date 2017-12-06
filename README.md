@@ -10,5 +10,5 @@
 <ul>
   <li><b>Clustering</b> - max-spacing k-clustering algorithm [<a href="knapsack.py">code</a>][<a href="https://en.wikipedia.org/wiki/Knapsack_problem">wiki</a>]</li>
   <li><b>Huffman's Algorithm</b> - implementation of Huffman's algorithm to obtain optimal coding scheme given frequences of characters [<a href="huffman.py">code</a>][<a href="https://en.wikipedia.org/wiki/Huffman_coding">wiki</a>][<a href="http://compression.ru/download/articles/huff/huffman_1952_minimum-redundancy-codes.pdf">paper</a>]</li>
-  <li><b>Dijkstra's Algorithm</b> - heap-based greedy algorithm to find shortest paths from the source to every other node in directed graph with non-negative edge weights in <i>O((|E|+|V|)log|V|)</i> time  [<a href="knapsack.py">code</a>][<a href="https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm">wiki</a>][<a href="http://www-m3.ma.tum.de/foswiki/pub/MN0506/WebHome/dijkstra.pdf">paper</a>]</li>
+  <li><b>Dijkstra's Algorithm</b> - heap-based greedy algorithm to find shortest paths from the source to every other node in directed graph with non-negative edge weights in <i>O((|E|+|V|)log|V|)</i> time  [<a href="dijkstra.py">code</a>][<a href="https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm">wiki</a>][<a href="http://www-m3.ma.tum.de/foswiki/pub/MN0506/WebHome/dijkstra.pdf">paper</a>]</li>
 </ul>
