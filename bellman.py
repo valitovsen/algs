@@ -37,7 +37,7 @@ def bellman(graph, source):
         for end in node_list:
             opt1 = dyn_array[i-1][end] # shortest path under previous node limit
             opt2 = min([dyn_array[i-1][start]+graph[start][end] # shortest path under current node limit
-                            for start in reversed_edge_list[end]])
+                            for start in reversed_edge_list.get(end,[])])
             dyn_array[i][end] = min(opt1,opt2) # pick minimum
             comp = comp & (dyn_array[i-1][end] == dyn_array[i][end]) # check progress, False if paths were changed
         del dyn_array[i-1] # memory optimization, won't need it in further steps
