@@ -33,7 +33,7 @@ def dijkstra(graph, source):
         def dijkstra(self):
             'Calculates shortest paths'
             #1. Initialization
-            self.explored = set([self.source])
+            self.not_explored = self.connected-set([self.source])
             self.distances = {self.source:0}
             self.nodes_to_scores = {} # nodes to scores mapping
             self.scores_to_nodes = {} # scores to set of nodes mapping
@@ -44,25 +44,27 @@ def dijkstra(graph, source):
             self.scores_heap = list(self.scores_to_nodes.keys())
             heapq.heapify(self.scores_heap) # heap to extract min greedy score in O(logn) time
             #2. Main loop
-            while self.explored != self.connected:
+            while self.not_explored:
                 min_score = heapq.heappop(self.scores_heap) # extract smallest greedy score
                 while not self.scores_to_nodes[min_score]: # keep extracting until set is not empty
                     min_score = heapq.heappop(self.scores_heap)
                 w = self.scores_to_nodes[min_score].pop() # pop node from set with relevant score
                 self.distances[w] = min_score # update shortest distances
-                self.explored.add(w) # mark w as explored
+                self.not_explored.remove(w) # mark w as explored
                 self.update_scores(w)
 
         def update_scores(self,w):
             'Updates greedy scores after iteration'
-            not_explored = self.connected - self.explored
             for vert in self.graph[w]: # check all w's neighbours
-                if vert in not_explored: # unexplored nodes
+                if vert in self.not_explored: # unexplored nodes
                     old_score = self.nodes_to_scores[vert]
                     new_score = min(self.nodes_to_scores[vert], self.distances[w]+self.graph[w].get(vert, float('inf')))
                     self.nodes_to_scores[vert] = new_score
                     self.scores_to_nodes[old_score].remove(vert)
-                    self.scores_to_nodes[new_score] = self.scores_to_nodes.get(new_score, set()).union(set([vert]))
+                    if new_score in self.scores_to_nodes:
+                        self.scores_to_nodes[new_score].add(vert)
+                    else:
+                        self.scores_to_nodes[new_score] = set([vert])
                     heapq.heappush(self.scores_heap,new_score) # push new score to heap
 
         def run(self):
