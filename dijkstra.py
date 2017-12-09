@@ -55,8 +55,9 @@ def dijkstra(graph, source):
 
         def update_scores(self,w):
             'Updates greedy scores after iteration'
+            not_explored = self.connected - self.explored
             for vert in self.graph[w]: # check all w's neighbours
-                if vert in self.connected - self.explored: # unexplored nodes
+                if vert in not_explored: # unexplored nodes
                     old_score = self.nodes_to_scores[vert]
                     new_score = min(self.nodes_to_scores[vert], self.distances[w]+self.graph[w].get(vert, float('inf')))
                     self.nodes_to_scores[vert] = new_score
