@@ -1,5 +1,5 @@
 
-def dijsktra(graph, source):
+def dijkstra(graph, source):
     '''
     dijsktra(graph,source) -> dict of shortest paths from the source
 
@@ -30,61 +30,42 @@ def dijsktra(graph, source):
                     if j not in self.connected:
                         self.dfs(j)
 
-        def dijsktra(self):
+        def dijkstra(self):
             'Calculates shortest paths'
             #1. Initialization
             self.explored = set([self.source])
             self.distances = {self.source:0}
-            self.neighbours_to_scores = self.graph[self.source] # list of candidate nodes
-            self.scores_to_neighbours = {score:set() for score in set(self.neighbours_to_scores.values())} # reversed mapping for quick look-ups
-            for vert in self.neighbours_to_scores:
-                self.scores_to_neighbours[self.neighbours_to_scores[vert]].add(vert)
-            self.scores_heap = list(self.scores_to_neighbours.keys()) # heap to extract min greedy score in O(logn) time
-            heapq.heapify(self.scores_heap)
-            self.scores_heap_bl = {} # heap black list as a replacement for .delete method (absent in heapq)
+            self.nodes_to_scores = {} # nodes to scores mapping
+            self.scores_to_nodes = {} # scores to set of nodes mapping
+            for node in self.connected:
+                score = self.graph[source].get(node, float('inf'))
+                self.nodes_to_scores[node] = score
+                self.scores_to_nodes[score] = self.scores_to_nodes.get(score, set()).union(set([node]))
+            self.scores_heap = list(self.scores_to_nodes.keys())
+            heapq.heapify(self.scores_heap) # heap to extract min greedy score in O(logn) time
             #2. Main loop
             while self.explored != self.connected:
                 min_score = heapq.heappop(self.scores_heap) # extract smallest greedy score
-                while self.scores_heap_bl.get(min_score, 0): # check that score is not 'deleted', if so pick extract one
-                    self.scores_heap_bl[min_score] -= 1
+                while not self.scores_to_nodes[min_score]: # keep extracting until set is not empty
                     min_score = heapq.heappop(self.scores_heap)
-                w = self.scores_to_neighbours[min_score].pop() # find corresponding node
+                w = self.scores_to_nodes[min_score].pop() # pop node from set with relevant score
                 self.distances[w] = min_score # update shortest distances
                 self.explored.add(w) # mark w as explored
                 self.update_scores(w)
 
         def update_scores(self,w):
             'Updates greedy scores after iteration'
-            del self.neighbours_to_scores[w] # w is no longer a candidate since it's visited
             for vert in self.graph[w]: # check all w's neighbours
-                if vert in self.neighbours_to_scores: # if neighbour is already a candidate (neighbour to other node in explored)
-                    if self.graph[w][vert]+self.distances[w] < self.neighbours_to_scores[vert]: # update greedy score of the node if it's better
-                        old_score = self.neighbours_to_scores[vert]
-                        new_score = self.graph[w][vert]+self.distances[w]
-                        if old_score in self.scores_heap_bl: # 'delete' old score from heap via black listing
-                            self.scores_heap_bl[old_score] += 1
-                        else:
-                            self.scores_heap_bl[old_score] = 1
-                        heapq.heappush(self.scores_heap,new_score) # push new score to the heap
-                        self.neighbours_to_scores[vert] = new_score # update node's score
-                        self.scores_to_neighbours[old_score].remove(vert) # remove node from old score mapping
-                        if new_score in self.scores_to_neighbours: # add new score and node to mapping
-                            self.scores_to_neighbours[new_score].add(vert)
-                        else:
-                            self.scores_to_neighbours[new_score] = set([vert])
-                    else:
-                        pass
-                elif vert not in self.explored: # if neighbour is not a candidate and is not explored
-                    score = self.graph[w][vert]+self.distances[w] # compute score
-                    self.neighbours_to_scores[vert] = score # add node to candidates
-                    heapq.heappush(self.scores_heap, score) # push score to the heap
-                    if score in self.scores_to_neighbours: # update mapping
-                        self.scores_to_neighbours[score].add(vert)
-                    else:
-                        self.scores_to_neighbours[score] = set([vert])
+                if vert in self.connected - self.explored: # unexplored nodes
+                    old_score = self.nodes_to_scores[vert]
+                    new_score = min(self.nodes_to_scores[vert], self.distances[w]+self.graph[w].get(vert, float('inf')))
+                    self.nodes_to_scores[vert] = new_score
+                    self.scores_to_nodes[old_score].remove(vert)
+                    self.scores_to_nodes[new_score] = self.scores_to_nodes.get(new_score, set()).union(set([vert]))
+                    heapq.heappush(self.scores_heap,new_score) # push new score to heap
 
         def run(self):
-            self.dijsktra()
+            self.dijkstra()
             return self.distances
 
     inst = Cont(graph, source)
@@ -119,5 +100,5 @@ if __name__ == '__main__':
         for line in file:
             raw = line.rstrip().split()
             G[int(raw[0])] = {int(pair.split(',')[0]):int(pair.split(',')[1]) for pair in raw[1:]}
-    res = dijsktra(G,int(opts['-s']))
+    res = dijkstra(G,int(opts['-s']))
     print('Shortest distances:\n',res)
