@@ -8,6 +8,10 @@ def held_karp(G, complete=True):
         graph: adjlist representation of a complete graph
         optimal value: float
 
+    TO DO:
+    - solution reconstruction
+    - multithreading
+
     A. Valitov 2017
     '''
     from itertools import combinations
