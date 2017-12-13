@@ -10,6 +10,9 @@ def bellman(graph, source):
                 neighbour_2:distance,...},...}
         source - name of the source vertex as given in graph dict
 
+    TO DO:
+    - solution reconstruction
+
     A. Valitov 2017
     '''
 
