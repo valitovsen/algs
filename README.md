@@ -3,7 +3,7 @@
 <h3>Contents</h3>
 <p>Dynamic Programming:</p>
 <ul>
-  <li><b>Knapsack problem</b> - recursive implementation of DP algorithm to solve 0-1 knapsack problem [<a href="knapsack.py">code</a>][<a href="https://en.wikipedia.org/wiki/Knapsack_problem">wiki</a>]</li>
+  <li><b>Knapsack problem</b> - recursive implementation of exact DP algorithm to solve 0-1 knapsack problem [<a href="knapsack.py">code</a>][<a href="https://en.wikipedia.org/wiki/Knapsack_problem">wiki</a>]</li>
   <li><b>Held-Karp Algorithm</b> - exact DP algorithm to solve the Travelling Salesman Problem in <i>O(n<sup>2</sup>2<sup>n</sup>)</i> time [<a href="tsp.py">code</a>][<a href="https://en.wikipedia.org/wiki/Travelling_salesman_problem">wiki</a>]</li>
   <li><b>Needleman-Wunsch Algorithm</b> - implementation of Needleman-Wunsch algorithm to find optimal alignment of two sequences [<a href="knapsack.py">code</a>][<a href="https://en.wikipedia.org/wiki/Needleman–Wunsch_algorithm">wiki</a>][<a href="http://www.sciencedirect.com/science/article/pii/0022283670900574?via%3Dihub">paper</a>]</li>
   <li><b>Bellman-Ford Algorithm</b> - DP algorithm to find the shortest paths from the source to every other node in a directed weighted graph with no negative-weight cycle in <i>O(|E||V|)</i> time  [<a href="bellman.py">code</a>][<a href="https://en.wikipedia.org/wiki/Bellman–Ford_algorithm">wiki</a>]</li>
